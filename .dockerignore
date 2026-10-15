@@ -1,0 +1,14 @@
+.env
+.env.*
+.provider-secrets
+frontend
+node_modules
+.git
+.venv
+__pycache__
+.pytest_cache
+.mypy_cache
+.ruff_cache
+*.pyc
+build
+dist

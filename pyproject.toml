@@ -1,0 +1,70 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "llm-gateway-mvp"
+version = "0.1.0"
+description = "B2B LLM API governance gateway for mainland China"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.32,<1",
+  "sqlalchemy[asyncio]>=2.0.36,<3",
+  "asyncpg>=0.30,<1",
+  "alembic>=1.14,<2",
+  "redis>=5.2,<6",
+  "litellm>=1.55,<2",
+  "pydantic>=2.10,<3",
+  "pydantic-settings>=2.7,<3",
+  "PyYAML>=6,<7",
+  "python-json-logger>=3.2,<4",
+  "typer>=0.15,<1",
+  "cryptography>=44,<47",
+  "httpx>=0.28,<1",
+  "argon2-cffi>=23.1,<26",
+  "python-multipart>=0.0.20,<1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "aiosqlite>=0.20,<1",
+  "httpx>=0.28,<1",
+  "mypy>=1.14,<2",
+  "pytest>=8.3,<9",
+  "pytest-asyncio>=0.25,<1",
+  "ruff>=0.9,<1",
+  "types-PyYAML>=6.0.12,<7",
+]
+
+[project.scripts]
+gateway-admin = "app.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+markers = ["integration: requires PostgreSQL and Redis"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "ASYNC"]
+
+[tool.ruff.lint.per-file-ignores]
+"alembic/**/*.py" = ["E501", "I001"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
+exclude = ["alembic"]
+
+[[tool.mypy.overrides]]
+module = ["litellm.*"]
+ignore_missing_imports = true

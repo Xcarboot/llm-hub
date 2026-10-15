@@ -1,0 +1,17 @@
+model_list:
+  - model_name: primary
+    litellm_params:
+      model: openai/qwen3.7-plus
+      api_key: os.environ/PRIMARY_PROVIDER_API_KEY
+      api_base: os.environ/PRIMARY_PROVIDER_API_BASE
+      extra_body:
+        enable_thinking: false
+  - model_name: fallback
+    litellm_params:
+      model: openai/qwen-plus
+      api_key: os.environ/FALLBACK_PROVIDER_API_KEY
+      api_base: os.environ/FALLBACK_PROVIDER_API_BASE
+      extra_body:
+        enable_thinking: false
+# Database routes store model_name aliases; the application resolves them through this file.
+# Provider credentials are loaded only from protected environment variables.
